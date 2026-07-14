@@ -1,0 +1,14 @@
+stages:
+  - build
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+
+build-capnp:
+  image: debian:testing-slim
+  stage: build
+  script:
+    - apt-get update && apt-get install -y capnproto
+    - capnp compile msg.capnp -oc++
+  allow_failure: false
