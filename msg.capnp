@@ -36,6 +36,7 @@ enum MessageTypes
 
 struct TimeValueV1
 {
+    const type :MessageTypes = timeValueV1;
     time @0 :UInt64;
     value @1 :Float64;
 }
@@ -48,6 +49,7 @@ struct KV
 
 struct ResolveReqV1
 {
+    const type :MessageTypes = resolveReqV1;
     attributes @0 :List(KV);
 }
 
@@ -59,64 +61,76 @@ struct Address
 
 struct ResolveResV1
 {
+    const type:MessageTypes = resolveResV1;
     matchingInterfaces @0 :List(Address);
 }
 
 struct ReverseResolveReqV1
 {
+    const type :MessageTypes = reverseResolveReqV1;
     address @0 :Address;
 }
 
 struct ReverseResolveResV1
 {
+    const type :MessageTypes = reverseResolveResV1;
     name @0 :List(KV);
 }
 
 struct HelloWorldReqV1
 {
+    const type :MessageTypes = helloWorldReqV1;
     msg @0 :Text;
 }
 
 struct HelloWorldResV1
 {
+    const type :MessageTypes = helloWorldResV1;
     msg @0 :Text;
 }
 
 
 struct VectorReqV1
 {
+    const type :MessageTypes = vectorReqV1;
     values @0 :List(Float64);
 }
 
 struct VectorResV1
 {
+    const type :MessageTypes = vectorResV1;
     results @0 :List(Float64);
 }
 
 struct FluxLifecycleEventV1
 {
+    const type :MessageTypes = fluxLifecycleEventV1;
     data @0 :Text;
 }
 
 struct RegisterResolveReqV1
 {
+    const type :MessageTypes = registerResolveReqV1;
     name @0 :List(KV);
     address @1 :Address;
 }
 
 struct RegisterResolveResV1
 {
+    const type :MessageTypes = registerResolveResV1;
     success @0: Bool;
     errMsg @1: Text;
 }
 
 struct UnregisterResolveReqV1
 {
+    const type :MessageTypes = unregisterResolveReqV1;
     address @0 :Address;
 }
 
 struct UnregisterResolveResV1
 {
+    const type :MessageTypes = unregisterResolveResV1;
     success @0: Bool;
     errMsg @1: Text;
 }
@@ -150,15 +164,17 @@ enum HistoryType
 
 struct HistoryReqV1
 {
+    const type :MessageTypes = historyReqV1;
     address @0: Address;
     startTime @1: Int64;
     endTime @2: Int64;
     intervalMax @3: Int64;
-    type @4: HistoryType;
+    historyType @4: HistoryType;
 }
 
 struct HistoryResV1
 {
+    const type :MessageTypes = historyResV1;
     okOrErr :union
     {
         ok @0 :History;
@@ -168,10 +184,12 @@ struct HistoryResV1
 
 struct FluxClassifyJobReqV1
 {
+    const type :MessageTypes = fluxClassifyJobReqV1;
     jobspec @0: Text;
 }
 
 struct FluxClassifyJobResV1
 {
+    const type :MessageTypes = fluxClassifyJobResV1;
     result @0: Text;
 }
