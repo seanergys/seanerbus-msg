@@ -34,6 +34,10 @@ enum MessageTypes
     fluxLifecycleHeartbeatV1 @18;
 
     errorResV1 @19;
+
+    getV1Req @20;
+    getV1Res @21;
+    setV1Req @22;
 }
 
 struct TimeValueV1
@@ -207,4 +211,31 @@ struct ErrorResV1
      # If error_code != ErrorCodeV1::ok, then this may contain a human-readable description
      # of the error.
      what @1 :Text;
+}
+
+# Request for getting some value
+#
+# Answers with: 
+#   - ErrorResV1 if something did go wrong
+#   - GetV1Res if the operation succeeded
+struct GetV1Req
+{
+    const type :MessageTypes = getV1Req;
+}
+
+struct GetV1Res
+{
+    const type :MessageTypes = getV1Res;
+    value @0: UInt64;
+}
+
+# Request for setting some value
+# 
+# Answers with:
+#    - ErrorResV1 with errorCode == ErrorCodeV1::Ok, if everything went okay
+#    - ErrorResV1 with errorCode != ErrorCodeV1::Ok, if an error occured
+struct SetV1Req
+{
+    const type :MessageTypes = setV1Req;
+    value @0: UInt64;
 }
