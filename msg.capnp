@@ -108,6 +108,9 @@ struct FluxLifecycleEventV1
     data @0 :Text;
 }
 
+# Request for registering a address name mapping.
+#
+# The naming service responds with a ErrorResV1.
 struct RegisterResolveReqV1
 {
     const type :MessageTypes = registerResolveReqV1;
@@ -115,24 +118,13 @@ struct RegisterResolveReqV1
     address @1 :Address;
 }
 
-struct RegisterResolveResV1
-{
-    const type :MessageTypes = registerResolveResV1;
-    success @0: Bool;
-    errMsg @1: Text;
-}
-
+# Request for unregistering a address -> name mapping.
+#
+# The naming service responds with a ErrorResV1.
 struct UnregisterResolveReqV1
 {
     const type :MessageTypes = unregisterResolveReqV1;
     address @0 :Address;
-}
-
-struct UnregisterResolveResV1
-{
-    const type :MessageTypes = unregisterResolveResV1;
-    success @0: Bool;
-    errMsg @1: Text;
 }
 
 struct Aggregate
@@ -162,6 +154,10 @@ enum HistoryType
     flexTimeline @1;
 }
 
+# Request for historic time-series data.
+# Is answered with:
+# - HistoryResV1, if the request succeeded.
+# - ErrorResV1, if the request failed.
 struct HistoryReqV1
 {
     const type :MessageTypes = historyReqV1;
@@ -172,14 +168,11 @@ struct HistoryReqV1
     historyType @4: HistoryType;
 }
 
+
 struct HistoryResV1
 {
     const type :MessageTypes = historyResV1;
-    okOrErr :union
-    {
-        ok @0 :History;
-        err @1 :Text;
-    }
+    hist @0 :History;
 }
 
 struct FluxClassifyJobReqV1
@@ -192,4 +185,23 @@ struct FluxClassifyJobResV1
 {
     const type :MessageTypes = fluxClassifyJobResV1;
     result @0: Text;
+}
+
+enum ErrorCodeV1
+{
+    # No Error occurred.
+    ok @0;
+    # The requestee has sent a request which is not understood.
+    wrongSchema @1;
+}
+
+struct ErrorResV1
+{
+     # For well known project-wide errors, error_code is one of ErrorCodeV1.
+     # For use-case specific errors, this is a number >= 1ULL << 63
+     errorCode @0 :UInt64;
+
+     # If error_code != ErrorCodeV1::ok, then this may contain a human-readable description
+     # of the error.
+     what @1 :Text;
 }
