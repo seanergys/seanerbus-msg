@@ -32,6 +32,8 @@ enum MessageTypes
     fluxClassifyJobResV1 @17;
 
     fluxLifecycleHeartbeatV1 @18;
+
+    errorResV1 @19;
 }
 
 struct TimeValueV1
@@ -197,6 +199,7 @@ enum ErrorCodeV1
 
 struct ErrorResV1
 {
+    const type :MessageTypes = errorResV1;
      # For well known project-wide errors, error_code is one of ErrorCodeV1.
      # For use-case specific errors, this is a number >= 1ULL << 63
      errorCode @0 :UInt64;
