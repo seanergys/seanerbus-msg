@@ -35,9 +35,9 @@ enum MessageTypes
 
     errorResV1 @19;
 
-    getV1Req @20;
-    getV1Res @21;
-    setV1Req @22;
+    getReqV1 @20;
+    getResV1 @21;
+    setReqV1 @22;
 }
 
 struct TimeValueV1
@@ -218,14 +218,14 @@ struct ErrorResV1
 # Answers with: 
 #   - ErrorResV1 if something did go wrong
 #   - GetV1Res if the operation succeeded
-struct GetV1Req
+struct GetReqV1
 {
-    const type :MessageTypes = getV1Req;
+    const type :MessageTypes = getReqV1;
 }
 
-struct GetV1Res
+struct GetResV1
 {
-    const type :MessageTypes = getV1Res;
+    const type :MessageTypes = getResV1;
     value @0: UInt64;
 }
 
@@ -234,8 +234,8 @@ struct GetV1Res
 # Answers with:
 #    - ErrorResV1 with errorCode == ErrorCodeV1::Ok, if everything went okay
 #    - ErrorResV1 with errorCode != ErrorCodeV1::Ok, if an error occured
-struct SetV1Req
+struct SetReqV1
 {
-    const type :MessageTypes = setV1Req;
+    const type :MessageTypes = setReqV1;
     value @0: UInt64;
 }
