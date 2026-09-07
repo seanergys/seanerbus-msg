@@ -217,7 +217,7 @@ struct ErrorResV1
 #
 # Answers with: 
 #   - ErrorResV1 if something did go wrong
-#   - GetV1Res if the operation succeeded
+#   - GetResV1 if the operation succeeded
 struct GetReqV1
 {
     const type :MessageTypes = getReqV1;
