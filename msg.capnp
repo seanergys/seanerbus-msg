@@ -227,6 +227,8 @@ struct GetResV1
 {
     const type :MessageTypes = getResV1;
     value @0: UInt64;
+    # If this timestamp is 0, then the time of the reading is not known by the reader
+    time @1: UInt64;
 }
 
 # Request for setting some value
