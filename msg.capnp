@@ -53,13 +53,21 @@ struct KV
     value @1 :Text;
 }
 
+# Request to resolve the name 'name' (expressed as a list
+# of key-value pairs to one or more entities.
 struct ResolveReqV1
 {
     const type :MessageTypes = resolveReqV1;
-    attributes @0 :List(KV);
+    name @0 :List(KV);
 }
 
-struct Address
+# An entity is a "thing" on the dataplane which you can perform actions to
+# For example, the frequency of a core of some node is an entity.
+# On this entity operations like Get and Set might be performed.
+#
+# Entities are identified by a UUID, encoded here into its upper and lower
+# 64-bit
+struct Entity
 {
     lower @0 :UInt64;
     upper @1 :UInt64;
@@ -68,13 +76,13 @@ struct Address
 struct ResolveResV1
 {
     const type:MessageTypes = resolveResV1;
-    matchingInterfaces @0 :List(Address);
+    entities @0 :List(Entity);
 }
 
 struct ReverseResolveReqV1
 {
     const type :MessageTypes = reverseResolveReqV1;
-    address @0 :Address;
+    entity @0 :Entity;
 }
 
 struct ReverseResolveResV1
@@ -114,23 +122,23 @@ struct FluxLifecycleEventV1
     data @0 :Text;
 }
 
-# Request for registering a address name mapping.
+# Request for registering an entity -> name mapping.
 #
 # The naming service responds with a ErrorResV1.
 struct RegisterResolveReqV1
 {
     const type :MessageTypes = registerResolveReqV1;
     name @0 :List(KV);
-    address @1 :Address;
+    entity @1 :Entity;
 }
 
-# Request for unregistering a address -> name mapping.
+# Request for unregistering an entity -> name mapping.
 #
 # The naming service responds with a ErrorResV1.
 struct UnregisterResolveReqV1
 {
     const type :MessageTypes = unregisterResolveReqV1;
-    address @0 :Address;
+    entity @0 :Entity;
 }
 
 struct Aggregate
@@ -167,7 +175,7 @@ enum HistoryType
 struct HistoryReqV1
 {
     const type :MessageTypes = historyReqV1;
-    address @0: Address;
+    entity  @0: Entity;
     startTime @1: Int64;
     endTime @2: Int64;
     intervalMax @3: Int64;
