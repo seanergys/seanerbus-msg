@@ -38,6 +38,8 @@ enum MessageTypes
     getReqV1 @20;
     getResV1 @21;
     setReqV1 @22;
+
+    fluxLifecycleEventV2 @23;
 }
 
 struct TimeValueV1
@@ -249,4 +251,66 @@ struct SetReqV1
 {
     const type :MessageTypes = setReqV1;
     value @0: UInt64;
+}
+
+struct FluxLifecycleEventV2
+{
+    const type :MessageTypes = fluxLifecycleEventV2;
+    jobid @0: UInt64;
+    jobidF58 @1: Text;
+    state @2: FluxLifecycleState;
+    prevState @3: FluxLifecycleState;
+    nSlots @4: UInt64;
+    nNodes @5: UInt64;
+    nGpus @6: UInt64;
+    nCpus @7: UInt64;
+    owner @8: UInt64;
+    ownerName @9: Text;
+    jobName @10: Text;
+    jobDisplayName @11: Text;
+    budget @12: Text;
+    queue @13: Text;
+    submitTime @14: UInt64;
+    requestedWalltime @15: UInt64;
+    priority @16: UInt64;
+    nodeList @17: List(Text);
+    rLite  @18: List(FluxLifecycleRLiteNode);
+    startTime @19: UInt64;
+    rcState @20: FluxFinishState;
+    finishTime @21: UInt64;
+    errObj @22: FluxError;
+}
+
+struct FluxLifecycleRLiteNode {
+    ranks @0: Text;
+    childCores @1: Text;
+    childGpus @2: Text;
+}
+
+enum FluxLifecycleState
+{
+    depend @0;
+    priority @1;
+    sched @2;
+    run @3;
+    new @4;
+    cleanup @5;
+    inactive @6;
+}
+
+enum FluxFinishState
+{
+    completed @0;
+    cancelled @1;
+    failed @2;
+    timeout @3;
+}
+
+struct FluxError
+{
+    type @0: Text;
+    severity @1: UInt64;
+    note @2: Text;
+    userId @3: UInt64;
+    waitStatus @4: UInt64;
 }
