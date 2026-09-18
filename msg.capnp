@@ -77,6 +77,7 @@ struct ResolveResV1
 {
     const type:MessageTypes = resolveResV1;
     entities @0 :List(Entity);
+    resolvedTerms @1 :List(List(KV));
 }
 
 struct ReverseResolveReqV1
